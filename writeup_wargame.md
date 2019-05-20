@@ -145,9 +145,12 @@ id
 uid=1003(lv3) gid=1002(lv2) groups=1002(lv2)
 ```
 
-알아낸 lv2 비번 : i dont like stdin
+알아낸 lv3 비번 : i dont like stdin
 
 ## lv 3
+
+
+
 ## lv 4
 ## lv 5
 ## lv 6
