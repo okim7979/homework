@@ -338,7 +338,10 @@ $ my-pass
 cheese toast
 $ 
 ```
+알아낸 lv5 비번 : cheese toast
 ## lv 5
+gdb로 lv6가 무슨 프로그램인지 확인해보자.
+
 ## lv 6
 ## lv 7
 ## lv 8
