@@ -9,7 +9,7 @@ ssh passcode@pwnable.kr -p2222 (pw:guest)
 ```
 putty를 이용하여 주어진 주소로 접속을 하자.
 
-이번에는 `flag``passcod``passcode.c`가 존재하고있다.
+이번에는 `flag` `passcod` `passcode.c`가 존재하고있다.
 ```
 passcode@ubuntu:~$ ls
 flag  passcode  passcode.c
