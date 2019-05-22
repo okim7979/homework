@@ -45,7 +45,7 @@ cmd1@ubuntu:~$ export
 declare -x h="/bin/cat /home/cmd1/flag"
 ```
 환경변수에 문자열이 잘 전달되었음을 확인했으므로 이제 이것을 전달해주면 해결 할 수 있다.
-``
+```
 cmd1@ubuntu:~$ ./cmd1 '$h'
 mommy now I get what PATH environment is for :)
-``
+```
