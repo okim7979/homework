@@ -61,3 +61,20 @@ int main(){
         return 0;
 }
 ```
+
+그리고 제공된 글에서 컴파일 도중 워닝이 떴다는 것을 언급해주었으므로  
+따로 코드를 옮겨와서 컴파일 해준 결과
+```
+lv0@ubuntu:~$ gcc -o passcode passcode.c
+passcode.c: In function ‘login’:
+passcode.c:9:17: warning: format ‘%d’ expects argument of type ‘int *’, but argument 2 has type ‘int’ [-Wformat=]
+         scanf("%d", passcode1);
+                ~^
+passcode.c:14:17: warning: format ‘%d’ expects argument of type ‘int *’, but argument 2 has type ‘int’ [-Wformat=]
+         scanf("%d", passcode2);
+                ~^
+```
+scanf 사용할때 &를 사용하여 변수의 주소를 불러와야하는데 __코드__ 에서는 변수자체를 입력해서 워닝이 떴음을 알 수 있었다.  
+이렇게 변수자체를 입력해주면 변수에 들어있는 값을 주소로 인식을하고 %d로 저장하게된다.
+
+
