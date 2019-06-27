@@ -1,4 +1,4 @@
 Identity
 ========
 
-![Alt text](/homework/img/i.png)
+![Alt text](/homework/img/identity.jpg)
