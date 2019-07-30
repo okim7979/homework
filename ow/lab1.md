@@ -51,7 +51,7 @@ gdb로 `get_flag()`의 어셈코드를 확인해 보았으며
 따라서 이 부분에 break를 걸고 실행시켜 본 결과 
 ![](https://postfiles.pstatic.net/MjAxOTA3MzBfMTY5/MDAxNTY0NDU5MTU2ODI0.Vs9YoJIOrw-mbGODWXfK6IC0lbVxgQWeqUK8z_TuBKog.JnOST_B1mlpM-Dd7M50KUqRahY6-nIB4O870o9tMjyYg.PNG.rlaeoghks823/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7,_2019-07-04_17-28-07.png?type=w773)    
 
-`EDX(password)`의 값은 0x9e8c4441 
-`EAX(magic)`의 값은 0x1d9d6c임을 확인하였다.
+`EDX(password)`의 값은 `0x9e8c4441  `
+`EAX(magic)`의 값은` 0x1d9d6c`임을 확인하였다.
 
 
