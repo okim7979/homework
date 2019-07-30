@@ -36,4 +36,16 @@ int main(){
 	return 0 ;
 }
 ```
+`get_flag()`를 살펴보면 `password`는 랜덤한 값으로 설정된다는 것을 알 수 있으며 이것이 `magic`값과 같을 때 flag를 보여준다.
 
+gdb로 `get_flag()`의 어셈코드를 확인해 보았으며  
+```
+   0x08048712 <+375>:	call   0x8048480 <__isoc99_scanf@plt>
+   0x08048717 <+380>:	add    esp,0x10
+   0x0804871a <+383>:	mov    edx,DWORD PTR [ebp-0x80]
+   0x0804871d <+386>:	mov    eax,DWORD PTR [ebp-0x7c]
+   0x08048720 <+389>:	cmp    edx,eax
+   0x08048722 <+391>:	jne    0x8048760 <get_flag+453>
+```
+`get_flag()+389` 이 부분이 `if(password == magic)` 이 명령어 부분임을 확인하였다.   
+따라서 이 부분에 break를 걸고 실행시켜 본 결과 
