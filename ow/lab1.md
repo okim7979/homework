@@ -54,7 +54,7 @@ gdb로 `get_flag()`의 어셈코드를 확인해 보았으며
 `EDX(password)`의 값은 `0x9e8c4441`   
 `EAX(magic)`의 값은 `0x1d9d6c`임을 확인하였다.
 
-`set`을 통해 `magic`값을 `password`값과 동일하게 만들어주고 프로그램을 마저 실행시켜주면 다음과같이 플래그를 얻을 수 있다.
+`set`을 통해 `magic`값을 `password`값과 동일하게 만들어주고 프로그램을 마저 실행시켜주면 다음과 같이 플래그를 얻을 수 있다.
 ```
 gdb-peda$ set $eax=0x9e8c4441
 
