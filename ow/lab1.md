@@ -52,6 +52,13 @@ gdb로 `get_flag()`의 어셈코드를 확인해 보았으며
 ![](https://postfiles.pstatic.net/MjAxOTA3MzBfMTY5/MDAxNTY0NDU5MTU2ODI0.Vs9YoJIOrw-mbGODWXfK6IC0lbVxgQWeqUK8z_TuBKog.JnOST_B1mlpM-Dd7M50KUqRahY6-nIB4O870o9tMjyYg.PNG.rlaeoghks823/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7,_2019-07-04_17-28-07.png?type=w773)    
 
 `EDX(password)`의 값은 `0x9e8c4441`   
-`EAX(magic)`의 값은` 0x1d9d6c`임을 확인하였다.
+`EAX(magic)`의 값은 `0x1d9d6c`임을 확인하였다.
 
+`set`을 통해 `magic`값을 `password`값과 동일하게 만들어주고 프로그램을 마저 실행시켜주면 다음과같이 플래그를 얻을 수 있다.
+```
+gdb-peda$ set $eax=0x9e8c4441
 
+gdb-peda$ c
+Continuing.
+CTF{debugger_1s_so_p0werful_1n_dyn4m1c_4n4lySis!}[Inferior 1 (process 4357) exited normally]
+```
