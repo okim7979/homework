@@ -49,3 +49,5 @@ gdb로 `get_flag()`의 어셈코드를 확인해 보았으며
 ```
 `get_flag()+389` 이 부분이 `if(password == magic)` 이 명령어 부분임을 확인하였다.   
 따라서 이 부분에 break를 걸고 실행시켜 본 결과 
+![](https://postfiles.pstatic.net/MjAxOTA2MjdfMTY0/MDAxNTYxNjI1ODY2NTYy.tgo_4FbbGEUfxHHGHH7uGELrlkcxBYDcC7CM-UVjJJUg.2ES4eaytvaDY3VDGg_iJLpKL0sHbJCc8ZyQKHLPcO1kg.PNG.rlaeoghks823/Assemble.png?type=w773)
+
