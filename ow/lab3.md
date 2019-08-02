@@ -43,5 +43,4 @@ p.send(pl2)
 
 p.interactive()
 ```
-
-https://postfiles.pstatic.net/MjAxOTA4MDJfMjU1/MDAxNTY0NzMyODEyMDU5.rR_beKFFZDCcs3ZtbJKSpinGAm-5MOtGaDMdLP_goHkg.dqOs30R6BxI3My2RL07mlbCF7j-0d78n_9f9OOSKoj0g.PNG.rlaeoghks823/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7,_2019-07-30_00-15-30.png?type=w773
+![](https://postfiles.pstatic.net/MjAxOTA4MDJfMjU1/MDAxNTY0NzMyODEyMDU5.rR_beKFFZDCcs3ZtbJKSpinGAm-5MOtGaDMdLP_goHkg.dqOs30R6BxI3My2RL07mlbCF7j-0d78n_9f9OOSKoj0g.PNG.rlaeoghks823/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7,_2019-07-30_00-15-30.png?type=w773) 
