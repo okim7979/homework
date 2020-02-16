@@ -24,7 +24,7 @@
 
 ![]()
 
-꺽쇠는 모두 &lt;&gt;로 치환된다.   
+꺽쇠는 모두 \&lt;\&gt;로 치환된다.   
 특정 어택 코드를 입력하면 다음과 같은 메세지가 출력된다.  
 `<!-- Not Allowed Attribute Filtered ( onfocus="alert(4)") --><input autofocus>`  
 이 부분은 xss를 블랙리스트 기법으로 막아둔것 같다.
