@@ -3,7 +3,7 @@
 
 * 카테고리 추가
 
-![](https://postfiles.pstatic.net/MjAyMDAyMTZfMTgy/MDAxNTgxODU5NDU3MDM1.YBok-1crgB46ZjaqZbMB6ZNeFxUR3nO-RJelRq1pxyUg.41BE1kkgdtMPlSi1Yt8mupz5677Pum7ypLR2R6qa8JYg.JPEG.rlaeoghks823/K-094.jpg)
+![](https://blogfiles.pstatic.net/MjAyMDAyMTZfMTgy/MDAxNTgxODU5NDU3MDM1.YBok-1crgB46ZjaqZbMB6ZNeFxUR3nO-RJelRq1pxyUg.41BE1kkgdtMPlSi1Yt8mupz5677Pum7ypLR2R6qa8JYg.JPEG.rlaeoghks823/K-094.jpg)
 
 특문 입력 시 특수문자 입력이 불가능하다는 메세지를 출력 후 `~!^*()-_=+ `만 남게된다.  
 남은 특수문자들은 출력시 에러메세지가 발생하지 않는다.
